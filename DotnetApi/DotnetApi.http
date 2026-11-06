@@ -1,0 +1,135 @@
+@DotnetApi_HostAddress = http://localhost:5248
+@accessToken = replace-with-login-access-token
+@refreshToken = replace-with-login-refresh-token
+
+### Health
+GET {{DotnetApi_HostAddress}}/health
+Accept: application/json
+
+### Login (admin)
+POST {{DotnetApi_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "Passw0rd!"
+}
+
+### Current user
+GET {{DotnetApi_HostAddress}}/api/auth/me
+Accept: application/json
+Authorization: Bearer {{accessToken}}
+
+### Refresh tokens
+POST {{DotnetApi_HostAddress}}/api/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+
+### Logout
+POST {{DotnetApi_HostAddress}}/api/auth/logout
+Content-Type: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+
+### List users
+GET {{DotnetApi_HostAddress}}/api/users
+Accept: application/json
+Authorization: Bearer {{accessToken}}
+
+### Create user
+POST {{DotnetApi_HostAddress}}/api/users
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "email": "ada@example.com",
+  "name": "Ada Lovelace",
+  "role": "admin",
+  "password": "Secret123!"
+}
+
+### Get user
+GET {{DotnetApi_HostAddress}}/api/users/00000000-0000-0000-0000-000000000000
+Accept: application/json
+Authorization: Bearer {{accessToken}}
+
+### Update user (partial update)
+PATCH {{DotnetApi_HostAddress}}/api/users/00000000-0000-0000-0000-000000000000
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "role": "manager"
+}
+
+### Delete user
+DELETE {{DotnetApi_HostAddress}}/api/users/00000000-0000-0000-0000-000000000000
+Authorization: Bearer {{accessToken}}
+
+### List products
+GET {{DotnetApi_HostAddress}}/api/products
+Accept: application/json
+Authorization: Bearer {{accessToken}}
+
+### Create product
+POST {{DotnetApi_HostAddress}}/api/products
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "name": "Prototype Widget",
+  "description": "A demo product.",
+  "price": 42.5
+}
+
+### Get product
+GET {{DotnetApi_HostAddress}}/api/products/00000000-0000-0000-0000-000000000000
+Accept: application/json
+Authorization: Bearer {{accessToken}}
+
+### Update product (partial update)
+PATCH {{DotnetApi_HostAddress}}/api/products/00000000-0000-0000-0000-000000000000
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "price": 39.99
+}
+
+### Archive product
+POST {{DotnetApi_HostAddress}}/api/products/00000000-0000-0000-0000-000000000000/archive
+Authorization: Bearer {{accessToken}}
+
+### Delete product
+DELETE {{DotnetApi_HostAddress}}/api/products/00000000-0000-0000-0000-000000000000
+Authorization: Bearer {{accessToken}}
+
+### Metrics dashboard
+GET {{DotnetApi_HostAddress}}/api/metrics-dashboard?range=7d
+Accept: application/json
+Authorization: Bearer {{accessToken}}
+
+### Metrics KPIs
+GET {{DotnetApi_HostAddress}}/api/metrics-dashboard/kpis?range=30d
+Accept: application/json
+Authorization: Bearer {{accessToken}}
+
+### Metrics chart
+GET {{DotnetApi_HostAddress}}/api/metrics-dashboard/chart?range=90d
+Accept: application/json
+Authorization: Bearer {{accessToken}}
+
+### Metrics logs
+GET {{DotnetApi_HostAddress}}/api/metrics-dashboard/logs?range=7d&level=all&limit=10
+Accept: application/json
+Authorization: Bearer {{accessToken}}
+
+### Metrics logs, filtered and paged
+GET {{DotnetApi_HostAddress}}/api/metrics-dashboard/logs?range=30d&level=warn&limit=5&cursor=5
+Accept: application/json
+Authorization: Bearer {{accessToken}}

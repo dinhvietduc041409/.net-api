@@ -1,0 +1,32 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: dfw-api-postgres
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_DB: dfw_api
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - dfw-api-postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d dfw_api"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: dfw-api-redis
+    ports:
+      - "6379:6379"
+    profiles: ["redis"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  dfw-api-postgres-data:
